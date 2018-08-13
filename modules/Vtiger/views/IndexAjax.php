@@ -28,7 +28,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
 			if (!$request->isEmpty('operator', true)) {
@@ -39,7 +38,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			if ($request->has('search_params')) {
 				$customViewModel->set('search_params', $request->getArray('search_params'));
 			}
-
 			return $customViewModel->getRecordIds($excludedIds);
 		}
 	}

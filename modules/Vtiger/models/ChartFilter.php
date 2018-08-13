@@ -733,7 +733,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$searchParams]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
-
 		$query = $queryGenerator->createQuery();
 		// we want colors from picklists if available
 		$query = $this->addPicklistsToQuery($query);

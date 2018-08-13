@@ -92,7 +92,6 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				return $queryGenerator;
 			}
 		}
-
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->getByType('search_key', 2);
@@ -105,7 +104,6 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 			}
 
 			$customViewModel->set('search_params', $request->getArray('search_params'));
-
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
 	}

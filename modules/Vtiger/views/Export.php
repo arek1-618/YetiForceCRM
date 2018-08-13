@@ -47,7 +47,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params', 2));
+		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
 		$viewer->view('Export.tpl', $sourceModule);
 	}
 }

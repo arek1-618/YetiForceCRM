@@ -48,7 +48,6 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel->set('cache', $request->get('cache'));
 		$coordinatesModel->set('search_params', $request->getArray('search_params'));
 		$coordinatesModel->set('request', $request);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$coordinatesCenter = $coordinatesModel->getCoordinatesCenter();
 		if ($moduleModel->isAllowModules($sourceModule) && !$request->isEmpty('viewname')) {
