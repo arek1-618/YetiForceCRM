@@ -69,7 +69,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-		$searchParams = $request->getArray('search_params', 2);
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
@@ -108,7 +108,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-		$searchParams = $request->getArray('search_params', 2);
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
@@ -155,7 +155,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-		$searchParams = $request->getArray('search_params', 2);
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
