@@ -59,7 +59,6 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 		$fields = array_values($query->select);
 		$query->select($fields);
-
 		return $query;
 	}
 
