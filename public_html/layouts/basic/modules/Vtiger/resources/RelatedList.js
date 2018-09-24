@@ -1104,6 +1104,34 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			})
 		}
 	},
+
+	showCalModal: function (params) {
+		const aDeferred = $.Deferred();
+		AppConnector.request(params).done(function (requestData) {
+			app.showModalWindow(requestData, function (modal) {
+				aDeferred.resolve(modal);
+			});
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
+
+	regAddButton() {
+		const self = this;
+		console.log('regAddButton');
+		//js-add-button-cal
+		let container = $('.detailViewContainer');
+		container.find('.js-add-button-cal').on('click', (e) => {
+			console.log('js-add-button-cal');
+			//Calendar&view=CalendarExtended
+			//&view=CalendarExtended&mid=46&parent=44
+			self.showCalModal({
+				'module': 'Calendar',
+				'view': "CalendarExtended",
+			});
+		});
+	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
@@ -1111,5 +1139,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
+		this.regAddButton();
 	},
 })

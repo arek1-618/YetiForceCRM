@@ -78,6 +78,7 @@
 									{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search"></span>{/if}
 									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
 								</button>
+								<button type="button" class="js-add-button-cal">ADD CAL</button>
 							</div>
 						{/if}
 					{/foreach}
