@@ -70,7 +70,7 @@ class Purifier
 			$config->set('Core.Encoding', static::$defaultCharset);
 			$config->set('Cache.SerializerPermissions', 0775);
 			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
-			$config->set('HTML.Allowed', '');
+			$config->set('HTML.Allowed', 'img[src]');
 			static::$purifyInstanceCache = new \HTMLPurifier($config);
 		}
 		if (static::$purifyInstanceCache) {

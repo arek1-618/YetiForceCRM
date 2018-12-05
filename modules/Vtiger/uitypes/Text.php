@@ -16,6 +16,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
+		\App\DebugerEx::log('getDBValue', $value);
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -24,12 +25,16 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
+		//\App\DebugerEx::log('setValueFromRequest', $request->getRaw('description'), $request->get('description'), $requestFieldName);
 		$fieldName = $this->getFieldModel()->getFieldName();
+		\App\DebugerEx::log('0) setValueFromRequest', $fieldName, $requestFieldName);
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
 		if ($this->getFieldModel()->getUIType() === 300) {
+			\App\DebugerEx::log('1) setValueFromRequest', $requestFieldName, $request->get('description'));
 			$value = $request->getForHtml($requestFieldName, '');
+			\App\DebugerEx::log('2) setValueFromRequest', $value);
 		} else {
 			$value = $request->get($requestFieldName, '');
 		}
@@ -61,8 +66,10 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$uiType = $this->getFieldModel()->get('uitype');
+		\App\DebugerEx::log($uiType, $value);
 		if (is_int($length)) {
 			if ($uiType === 300) {
+				\App\DebugerEx::log($uiType, $value);
 				$value = \App\TextParser::htmlTruncate($value, $length);
 			} else {
 				$value = \App\TextParser::textTruncate($value, $length);

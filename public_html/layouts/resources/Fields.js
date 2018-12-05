@@ -340,6 +340,9 @@ App.Fields = {
 			loadEditor(element, customConfig) {
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
+				let moduleName = app.getModuleName();
+				let recordId = app.getRecordId();
+				console.log('loadEditor: ' + moduleName + ' ' + recordId);
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
@@ -347,11 +350,27 @@ App.Fields = {
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
+					filebrowserBrowseUrl: 'index.php?module=' + moduleName + '&action=Browse&record=' + recordId,
+					filebrowserUploadUrl: 'index.php?module=' + moduleName + '&action=Upload&record=' + recordId,
 					on: {
 						instanceReady: function (evt) {
 							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
+						},
+						afterUndoImage: (evt) => {
+							console.log('afterUndoImage: ' + evt.eventInfo);
+							//var dialogName = evt.data.name;
+							//var dialogDefinition = evt.data.definition;
+							//console.log('afterUndoImage: ' + dialogName + ' D: ' + dialogDefinition);
+							/*if (dialogName == 'image') {
+								dialogDefinition.removeContents('Link');
+								dialogDefinition.removeContents('advanced');
+								dialogDefinition.removeContents('Upload');
+							}*/
+						},
+						afterCommandExec: (evt) => {
+							console.log('afterCommandExec: ' + evt.eventInfo);
 						}
 					},
 					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',

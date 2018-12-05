@@ -984,7 +984,9 @@ class File
 		$db = \App\Db::getInstance();
 		$attach = [];
 		foreach (static::transform($files, true) as $key => $transformFiles) {
+			//\App\DebugerEx::log($transformFiles);
 			foreach ($transformFiles as $fileDetails) {
+				\App\DebugerEx::log($fileDetails);
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
 					$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
@@ -1014,6 +1016,47 @@ class File
 					$attach[] = ['hash' => $request->getByType('hash', 'Text'), 'name' => $file->getName(), 'error' => ''];
 				}
 			}
+		}
+		return $attach;
+	}
+
+	public static function uploadAndSave2(\App\Request $request, array $files, string $type, string $storageName)
+	{
+		$db = \App\Db::getInstance();
+		$attach = [];
+		foreach (static::transform($files, true) as $key => $fileDetails) {
+			//\App\DebugerEx::log($transformFiles);
+			//foreach ($transformFiles as $fileDetails) {
+			\App\DebugerEx::log($fileDetails);
+			$file = static::loadFromRequest($fileDetails);
+			if (!$file->validate($type)) {
+				$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+				continue;
+			}
+			$uploadFilePath = static::initStorageFileDirectory($storageName);
+			$key = $file->generateHash(true, $uploadFilePath);
+			$db->createCommand()->insert('u_#__file_upload_temp', [
+				'name' => $file->getName(),
+				'type' => $file->getMimeType(),
+				'path' => $uploadFilePath,
+				'createdtime' => date('Y-m-d H:i:s'),
+				'fieldname' => $request->getByType('field', 'Alnum'),
+				'key' => $key,
+				'crmid' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
+			])->execute();
+			if (move_uploaded_file($file->getPath(), $uploadFilePath . $key)) {
+				$attach[] = [
+					'name' => $file->getName(),
+					'size' => \vtlib\Functions::showBytes($file->getSize()),
+					'key' => $key,
+					'hash' => $request->getByType('hash', 'string')
+				];
+			} else {
+				$db->createCommand()->delete('u_#__file_upload_temp', ['key' => $key])->execute();
+				Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");
+				$attach[] = ['hash' => $request->getByType('hash', 'Text'), 'name' => $file->getName(), 'error' => ''];
+			}
+			//}
 		}
 		return $attach;
 	}
