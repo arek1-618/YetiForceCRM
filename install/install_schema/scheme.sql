@@ -160,15 +160,6 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_pdf_inv_col_scheme` */
-
-CREATE TABLE `u_yf_pdf_inv_scheme` (
-  `crmid` INT(10) NOT NULL,
-  `columns` TEXT DEFAULT NULL,
-  KEY `crmid` (`crmid`),
-  CONSTRAINT `fk_u_yf_pdf_inv_scheme_crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
@@ -3102,6 +3093,15 @@ CREATE TABLE `u_yf_partnerscf` (
   `partnersid` int(10) NOT NULL,
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partnerscf` FOREIGN KEY (`partnersid`) REFERENCES `u_yf_partners` (`partnersid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_pdf_inv_scheme` */
+
+CREATE TABLE `u_yf_pdf_inv_scheme` (
+  `crmid` int(10) NOT NULL,
+  `columns` text DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  CONSTRAINT `fk_u_yf_pdf_inv_scheme_crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_picklist_close_state` */
@@ -6878,23 +6878,22 @@ CREATE TABLE `vtiger_ossmailview` (
   `from_email` text DEFAULT NULL,
   `to_email` text DEFAULT NULL,
   `subject` text DEFAULT NULL,
-  `content` text DEFAULT NULL,
+  `content` mediumtext DEFAULT NULL,
   `cc_email` text DEFAULT NULL,
   `bcc_email` text DEFAULT NULL,
-  `id` int(10) DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL,
   `mbox` varchar(100) DEFAULT NULL,
   `uid` varchar(150) DEFAULT NULL,
   `cid` char(40) DEFAULT NULL,
   `rc_user` varchar(3) DEFAULT NULL,
   `reply_to_email` text DEFAULT NULL,
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
-  `attachments_exist` smallint(1) DEFAULT 0,
-  `type` tinyint(1) DEFAULT NULL,
+  `attachments_exist` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `type` tinyint(1) unsigned DEFAULT NULL,
   `from_id` text NOT NULL,
   `to_id` text NOT NULL,
-  `orginal_mail` text DEFAULT NULL,
-  `verify` smallint(1) DEFAULT 0,
-  `rel_mod` varchar(128) DEFAULT NULL,
+  `orginal_mail` mediumtext DEFAULT NULL,
+  `verify` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`ossmailviewid`),
   KEY `id` (`id`),
@@ -7733,7 +7732,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=605 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
