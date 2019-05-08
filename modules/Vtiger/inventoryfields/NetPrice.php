@@ -56,7 +56,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
@@ -67,15 +67,18 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||{$columnName}||{$value}", 406);
 		}
+		if (null !== $originalValue && !\App\Validator::floatIsEqual($value, $originalValue, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item)
+	public function getAutomaticValue(array $item, bool $userFormat = false)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getNetPrice();
+		return static::roundMethod(
+			static::calculateFromField($this->getModuleName(), 'TotalPrice', $item, $userFormat) - static::calculateFromField($this->getModuleName(), 'Discount', $item, $userFormat)
+		);
 	}
 }
