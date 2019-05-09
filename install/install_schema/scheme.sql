@@ -628,7 +628,7 @@ CREATE TABLE `l_yf_switch_users` (
 /*Table structure for table `l_yf_username_history` */
 
 CREATE TABLE `l_yf_username_history` (
-  `user_name` varchar(32) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   KEY `user_id` (`user_id`),
@@ -3933,11 +3933,13 @@ CREATE TABLE `vtiger_account` (
   `phone_extra` varchar(100) DEFAULT NULL,
   `fax_extra` varchar(100) DEFAULT NULL,
   `otherphone_extra` varchar(100) DEFAULT NULL,
+  `pricebook_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
   KEY `accountname` (`accountname`),
   KEY `parentid` (`parentid`),
+  KEY `vtiger_account_pricebook_id_idx` (`pricebook_id`),
   CONSTRAINT `fk_1_vtiger_account` FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5471,7 +5473,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2788 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2789 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6393,7 +6395,7 @@ CREATE TABLE `vtiger_login_method` (
 
 CREATE TABLE `vtiger_loginhistory` (
   `login_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(32) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `user_ip` varchar(100) DEFAULT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
   `login_time` timestamp NULL DEFAULT NULL,
@@ -8691,7 +8693,7 @@ CREATE TABLE `vtiger_user_module_preferences` (
 
 CREATE TABLE `vtiger_users` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(32) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,

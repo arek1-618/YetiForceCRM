@@ -145,9 +145,9 @@ Vtiger_Base_Validator_Js(
 		 * @return error if validation fails true on success
 		 */
 		invokeValidation: function(field, rules, i, options) {
-			var usernameInstance = new Vtiger_UserName_Validator_Js();
+			let usernameInstance = new Vtiger_UserName_Validator_Js();
 			usernameInstance.setElement(field);
-			var response = usernameInstance.validate();
+			let response = usernameInstance.validate();
 			if (response != true) {
 				return usernameInstance.getError();
 			}
@@ -160,12 +160,20 @@ Vtiger_Base_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validate: function() {
-			var fieldValue = this.getFieldValue();
-			var negativeRegex = /^[a-zA-Z0-9_.@]{3,32}$/;
-			var result = negativeRegex.test(fieldValue);
-			if (!result) {
-				var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-				this.setError(errorInfo);
+			let fieldValue = this.getFieldValue();
+			let fieldData = this.getElement().data();
+			if (fieldValue.length < 3) {
+				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
+				return false;
+			}
+			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
+			if (maximumLength && fieldValue.length > parseFloat(maximumLength)) {
+				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'));
+				return false;
+			}
+			let negativeRegex = /^[a-zA-Z0-9_.@]+$/;
+			if (!negativeRegex.test(fieldValue)) {
+				this.setError(app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS'));
 				return false;
 			}
 			return true;
