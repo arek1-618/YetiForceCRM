@@ -28,6 +28,18 @@ class SaveInventory extends \Api\Core\BaseAction
 	 */
 	public function post(): array
 	{
+		return [
+			'errors' => [
+				'inventory' => [
+					381 => ['message' => 'Not enn', 'params' => ['quantity' => 2]],
+					384 => ['message' => 'Not enn', 'params' => ['quantity' => 5]],
+					391 => ['message' => 'Not enn', 'params' => ['quantity' => 0]],
+				],
+				'limits' => [
+					'message' => 'Limit !!!!'
+				]
+			]
+		];
 		$moduleName = $this->controller->request->getModule();
 		$inventory = $this->controller->request->getArray('inventory');
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
